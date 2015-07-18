@@ -79,5 +79,5 @@ func (j Job) Run() error {
 
 // Create Job
 func (j *Job) Create() error {
-	return Post("/scheduler/iso8601", j, j)
+	return Post("/scheduler/iso8601", j)
 }

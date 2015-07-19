@@ -1,32 +1,30 @@
 package chronos
 
 type Job struct {
-	Name     string `json:"name"`
-	Async    bool   `json:"async,omitempty"`
-	Disabled bool   `json:"disabled,omitempty"`
-
-	Shell       bool              `json:"shell,omitempty"`
-	Command     string            `json:"command"`
-	Owner       string            `json:"owner"`
-	Container   *Container        `json:"container,omitempty"`
-	Environment map[string]string `json:"environmentVariables"`
-
-	CPUs   float32 `json:"cpus"`
-	Disk   float32 `json:"disk"`
-	Memory float32 `json:"memory"`
-
-	URIs          []string `json:"uris"`
-	Executor      string   `json:"executor"`
-	ExecutorFlags string   `json:"executorFlags"`
-
-	Retries     int  `json:"retries,omitempty"`
-	Successs    int  `json:"successCount,omitempty"`
-	Errors      int  `json:"errorCount,omitempty"`
-	LastSuccess Time `json:"lastSuccess,omitempty"`
-	LastError   Time `json:"lastError,omitempty"`
-
-	Epsilon  string `json:"epsilon"`
-	Schedule string `json:"schedule"`
+	Name          string `json:"name"`
+	Command       string `json:"command"`
+	Shell         bool   `json:"shell,omitempty"`
+	Epsilon       string `json:"epsilon"`
+	Executor      string `json:"executor"`
+	ExecutorFlags string `json:"executorFlags"`
+	Retries       int    `json:"retries,omitempty"`
+	Owner         string `json:"owner"`
+	Async         bool   `json:"async,omitempty"`
+	Successs      int    `json:"successCount,omitempty"`
+	Errors        int    `json:"errorCount,omitempty"`
+	//LastSuccess   Time     `json:"lastSuccess,omitempty"`
+	//LastError     Time     `json:"lastError,omitempty"`
+	CPUs     float32  `json:"cpus"`
+	Disk     float32  `json:"disk"`
+	Memory   float32  `json:"mem"`
+	Disabled bool     `json:"disabled,omitempty"`
+	URIs     []string `json:"uris"`
+	//Environment map[string]string `json:"environmentVariables"`
+	Environment      []EnvVar   `json:"environmentVariables"`
+	RunAsUser        string     `json:"runAsUser"`
+	Container        *Container `json:"container,omitempty"`
+	Schedule         string     `json:"schedule"`
+	scheduleTimeZone string     `json:"scheduleTimeZone"`
 }
 
 // NewJob creates a new Job assignment

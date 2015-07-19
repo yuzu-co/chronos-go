@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
+	"os"
 )
 
 // HTTP Transport for Chronos API
@@ -12,7 +14,7 @@ import (
 var Client *http.Client
 
 // Chronos API Endpoint
-var Host string = "http://127.0.0.1:8888"
+var Host string = os.Getenv("CHRONOS_URL")
 
 func init() {
 	Client = &http.Client{}
@@ -20,27 +22,19 @@ func init() {
 
 // Issue GET request against API and unmarshal response to v
 func Get(uri string, v interface{}) error {
-	req, err := http.NewRequest("GET", Host+uri, nil)
+
+	res, err := http.Get(Host + uri)
 	if err != nil {
-		return err
+		panic(err.Error())
+	}
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		panic(err.Error())
 	}
 
-	req.Header.Set("Accept", "application/json")
-
-	res, err := Client.Do(req)
+	err = json.Unmarshal(body, &v)
 	if err != nil {
-		return err
-	}
-	defer res.Body.Close()
-
-	if res.StatusCode != 200 {
-		return fmt.Errorf("got %d", res.StatusCode)
-	}
-
-	decoder := json.NewDecoder(res.Body)
-	err = decoder.Decode(v)
-	if err != nil {
-		return err
+		panic(err.Error())
 	}
 
 	return nil

@@ -25,7 +25,7 @@ type Job struct {
 	Container        *Container `json:"container,omitempty"`
 	Schedule         string     `json:"schedule"`
 	scheduleTimeZone string     `json:"scheduleTimeZone"`
-	Parents          []string   `json:"parents"`
+	Parents          []string   `json:"parents,omitempty"`
 }
 
 // NewJob creates a new Job assignment
@@ -78,5 +78,9 @@ func (j Job) Run() error {
 
 // Create Job
 func (j *Job) Create() error {
-	return Post("/scheduler/iso8601", j)
+	if j.Parents != nil {
+		return Post("/scheduler/dependency", j)
+	} else {
+		return Post("/scheduler/iso8601", j)
+	}
 }

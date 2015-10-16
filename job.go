@@ -25,6 +25,7 @@ type Job struct {
 	Container        *Container `json:"container,omitempty"`
 	Schedule         string     `json:"schedule"`
 	scheduleTimeZone string     `json:"scheduleTimeZone"`
+	Parents          []string   `json:"parents"`
 }
 
 // NewJob creates a new Job assignment
